@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "WorkBridge API",
+    "description": "REST API examples for the WorkBridge freelance job portal.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    { "name": "Auth", "item": [
+      { "name": "Register freelancer", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Taylor Freelancer\",\n  \"email\": \"taylor@example.com\",\n  \"password\": \"Password123!\",\n  \"role\": \"freelancer\"\n}" }, "url": "{{baseUrl}}/auth/register" } },
+      { "name": "Login", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"client@workbridge.dev\",\n  \"password\": \"Password123!\"\n}" }, "url": "{{baseUrl}}/auth/login" } }
+    ] },
+    { "name": "Jobs", "item": [
+      { "name": "List jobs", "request": { "method": "GET", "url": "{{baseUrl}}/jobs?search=React" } },
+      { "name": "Create job (client)", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"title\": \"Create a responsive portfolio\",\n  \"description\": \"Build an accessible responsive portfolio website with React and a fast, polished visual system.\",\n  \"category_id\": 1,\n  \"budget_min\": 600,\n  \"budget_max\": 900,\n  \"skills\": \"React, CSS, Bootstrap\",\n  \"experience_level\": \"intermediate\",\n  \"deadline\": \"2027-01-31\"\n}" }, "url": "{{baseUrl}}/jobs" } }
+    ] },
+    { "name": "Proposals", "item": [
+      { "name": "Apply to job (freelancer)", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"bid_amount\": 750,\n  \"cover_letter\": \"I can build this with accessible components, thoughtful responsive layouts, and clear progress updates throughout the project.\",\n  \"delivery_days\": 10\n}" }, "url": "{{baseUrl}}/jobs/1/proposals" } },
+      { "name": "Accept proposal (client)", "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{ \"status\": \"accepted\" }" }, "url": "{{baseUrl}}/proposals/1/status" } }
+    ] },
+    { "name": "Payments", "item": [
+      { "name": "Create simulated escrow (client)", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{ \"job_id\": 1, \"proposal_id\": 1, \"amount\": 750 }" }, "url": "{{baseUrl}}/payments" } },
+      { "name": "Mark escrow held", "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{ \"status\": \"escrow_held\" }" }, "url": "{{baseUrl}}/payments/1/status" } }
+    ] }
+  ]
+}
+

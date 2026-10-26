@@ -1,0 +1,12 @@
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+export function Header() {
+  const { user, logout } = useAuth(); const navigate = useNavigate();
+  const closeNav = () => document.querySelector('.navbar-toggler')?.classList.contains('collapsed') || document.querySelector('.navbar-toggler')?.click();
+  const signOut = () => { logout(); navigate('/'); };
+  return <header className="site-header"><nav className="navbar navbar-expand-lg navbar-light container py-3"><Link className="navbar-brand brand" to="/">work<span>bridge</span></Link><button className="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span className="navbar-toggler-icon" /></button><div className="collapse navbar-collapse" id="mainNav"><div className="navbar-nav ms-auto align-items-lg-center gap-lg-2"><NavLink onClick={closeNav} className="nav-link" to="/">Home</NavLink><NavLink onClick={closeNav} className="nav-link" to="/jobs">Find work</NavLink>{user ? <><NavLink onClick={closeNav} className="nav-link" to="/dashboard">Dashboard</NavLink>{user.role === 'admin' && <NavLink onClick={closeNav} className="nav-link" to="/admin">Admin</NavLink>}<button className="btn btn-link nav-link" onClick={signOut}>Sign out</button><span className="avatar" title={user.name}>{user.name.charAt(0).toUpperCase()}</span></> : <><NavLink onClick={closeNav} className="nav-link" to="/login">Log in</NavLink><Link className="btn btn-primary ms-lg-2" to="/register">Join WorkBridge</Link></>}</div></div></nav></header>;
+}
+
+export function Footer() { return <footer className="site-footer"><div className="container py-5"><div className="row g-4"><div className="col-lg-5"><Link className="brand text-white" to="/">work<span>bridge</span></Link><p className="footer-copy mt-3 mb-0">A more human way for thoughtful teams and exceptional freelancers to build great work together.</p></div><div className="col-6 col-lg-3"><h3 className="footer-title">Explore</h3><Link to="/jobs">Browse jobs</Link><Link to="/register">Join as talent</Link></div><div className="col-6 col-lg-3"><h3 className="footer-title">Platform</h3><Link to="/dashboard">Dashboard</Link><span>Simulated secure escrow</span></div></div><div className="footer-bottom mt-5 pt-3">© {new Date().getFullYear()} WorkBridge. Built as a full-stack portfolio project.</div></div></footer>; }
+

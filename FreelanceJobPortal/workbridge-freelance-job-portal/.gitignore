@@ -1,0 +1,10 @@
+
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+# Local temporary files and generated downloads
+work/
+outputs/
+

@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: workbridge-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: workbridge
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        sync: false
+  - type: web
+    name: workbridge-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+
